@@ -1,0 +1,196 @@
+<div class="wrapper">
+    <app-sidebar style="background: white !important;"></app-sidebar>
+
+    <div class="main">
+        <nav class="navbar navbar-expand navbar-theme">
+            <a class="sidebar-toggle d-flex mr-2">
+                <i class="hamburger align-self-center"></i>
+            </a>
+        </nav>
+        <main class="content">
+            <div class="container-fluid">
+
+                <div class="header">
+                    <h1 class="header-title">
+                        Productos
+                    </h1>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a [routerLink]="['/dashboard']" >Dashboard</a></li>
+                            <li class="breadcrumb-item"><a>Productos</a></li>
+                        </ol>
+                    </nav>
+                </div>
+                <div class="row">
+                    <div class="col-12 col-lg-12" *ngIf="success_message">
+                        <div class="alert alert-info alert-dismissible" role="alert">
+                            <div class="alert-message">
+                                {{success_message}}
+                            </div>
+
+                            <button type="button" class="close" (click)="close_alert()" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col-12 col-xl-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <h5 class="card-title">Filtro de productos</h5>
+                                        <form #searchForm="ngForm" (ngSubmit)="search(searchForm)">
+                                            <div class="input-group date" id="datetimepicker-minimum" data-target-input="nearest">
+                                                <input type="text" class="form-control datetimepicker-input" #filtro="ngModel" name="filtro" [(ngModel)]="filtroText">
+                                                <div class="input-group-append">
+                                       
+                                                    <button type="submit" class="input-group-text"><i class="fa fa-search"></i></button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <h5 class="card-title">Opciones de productos</h5>
+                                        <div class="btn-group">
+                                            
+                                            <button type="button" class="btn mb-1 btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                Opciones
+                                            </button>
+                                            <div class="dropdown-menu">
+                                                <a class="dropdown-item" [routerLink]="['/producto/registrar']">Registrar producto</a>
+                                                <a class="dropdown-item" data-toggle="modal" data-target="#modal-data-categoria">Ver categorias</a>
+                                                <a class="dropdown-item" data-toggle="modal" data-target="#modal-save-categoria">Registrar Categoria</a>
+                                           
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                            <table class="table table-striped table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Producto</th>
+                                        <th>Stock</th>
+                                        <th>Precio venta</th>
+                                        <th>Opciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody *ngFor="let item of productos | paginate: { itemsPerPage: 15, currentPage: p }; let idx = index">                                 
+                                        <td>
+                                            <img [src]="url + 'producto/img/'+ item.imagen" width="48" height="48" class="rounded-circle mr-2" alt="Avatar">{{item.titulo}}
+                                        </td>
+                                        <td>{{item.stock}}</td>
+                                        <td><b>$</b>{{item.precio_venta}}</td>
+                                        <td>
+                                            <div class="btn-group">
+                                                <button type="button" class="btn mb-1 btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <i class="fas fa-cog"></i>
+                                                </button>
+                                                <div class="dropdown-menu">
+                                                    <a class="dropdown-item" [routerLink]="['/producto/editar/',item._id]" >Editar registro</a>
+                                                   
+                                                    <a class="dropdown-item" (click)="eliminar(item._id)">Eliminar registro</a>
+                                                    <a class="dropdown-item" data-toggle="modal" (click)="get_id(item._id)" [attr.data-target]="'#modal-stock-'+idx">Aumentar Stock</a>
+                                                </div>
+                                            </div>
+                                        </td>  
+                                        <!--MODAL AUMENTAR STOCK-->
+                                        <div class="modal fade" [attr.id]="'modal-stock-'+idx" tabindex="-1" role="dialog" style="display: none;" aria-hidden="true">
+                                            <form #stockForm="ngForm" (ngSubmit)="aumentar_stock(stockForm)">
+                                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title">Aumentar stock de {{item.titulo}}</h5>
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">×</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body m-3">
+                                                        <div class="form-group">
+                                                            <input type="number" class="form-control" placeholder="Titulo de la categoria" #producto_stock="ngModel" name="producto_stock" [(ngModel)]="producto_stockText" required>
+                                                        </div>
+                                                            
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                                                            <button type="submit" class="btn btn-primary">Aumentar</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <!--MODAL AUMENTAR STOCK-->
+                          
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <pagination-controls (pageChange)="p = $event"></pagination-controls>
+                </div>
+
+
+                 <!--MODAL AGREGAR CATEGORIA-->
+                 <div class="modal fade" id="modal-save-categoria" tabindex="-1" role="dialog" style="display: none;" aria-hidden="true">
+                    <form #categoriaForm="ngForm" (ngSubmit)="save_cat(categoriaForm)">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Registrar Categoria</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">×</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body m-3">
+                                   <div class="form-group">
+                                       <input type="text" class="form-control" placeholder="Titulo de la categoria" #titulo_cat="ngModel" name="titulo_cat" [(ngModel)]="titulo_catText" required>
+                                   </div>
+                                   <div class="form-group">
+                                        <textarea class="form-control" placeholder="Breve descripcion" #descripcion_cat="ngModel" name="descripcion_cat" [(ngModel)]="descripcion_catText" required></textarea>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                                    <button type="submit" class="btn btn-primary">Registrar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <!--MODAL AGREGAR CATEGORIA-->
+
+                <!--MODAL LISTAR CATEGORIA-->
+                <div class="modal fade" id="modal-data-categoria" tabindex="-1" role="dialog" style="display: none;" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollablea" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Listado de categorias</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                                </button>
+                            </div>
+                            <div class="modal-body m-3">
+                               <table class="table table-striped table-hover table-sm">
+                                <thead>
+                                    <th>Titulo</th>
+                                </thead>
+                                <tbody *ngFor="let item of categorias">
+                                    <td>{{item.titulo.toUpperCase()}}</td>
+                                </tbody>
+                               </table>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                      
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--MODAL LISTAR CATEGORIA-->
+
+               
+            </div>
+        </main>
+       
+    </div>
+</div>

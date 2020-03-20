@@ -1,0 +1,131 @@
+<div class="wrapper">
+    <app-sidebar style="background: white !important;"></app-sidebar>
+
+    <div class="main">
+        <nav class="navbar navbar-expand navbar-theme">
+            <a class="sidebar-toggle d-flex mr-2">
+                <i class="hamburger align-self-center"></i>
+            </a>
+        </nav>
+        <main class="content">
+            <div class="container-fluid">
+
+                <div class="header">
+                    <h1 class="header-title">
+                        Registro de productos
+                    </h1>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="dashboard-default.html">Dashboard</a></li>
+                            <li class="breadcrumb-item"><a [routerLink]="['/productos']">Productos</a></li>
+                            <li class="breadcrumb-item"><a>Registro de productos</a></li>
+                        </ol>
+                    </nav>
+                </div>
+                <div class="row">
+                    <div class="col-12 col-lg-12" *ngIf="error_message">
+                        <div class="alert alert-danger alert-dismissible" role="alert">
+                            <div class="alert-message">
+                                {{error_message}}
+                            </div>
+
+                            <button type="button" (click)="error_alert()" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-12" *ngIf="success_message">
+                        <div class="alert alert-info alert-dismissible" role="alert">
+                            <div class="alert-message">
+                                {{success_message}}
+                            </div>
+
+                            <button type="button" class="close" (click)="success_alert()" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col-12 col-xl-8">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="card-title">Complete el formulario</h5>
+                                <h6 class="card-subtitle text-muted">Productos.</h6>
+                            </div>
+                            <div class="card-body">
+                                <form #productoForm="ngForm" (ngSubmit)="onSubmit(productoForm)">
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label class="form-label">Titulo del producto</label>
+                                                <input type="text" class="form-control" placeholder="Ingrese el titulo del producto" #titulo="ngModel" name="titulo" [(ngModel)]="producto.titulo" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-2">
+                                            <div class="form-group">
+                                                <label class="form-label">Precio compra</label>
+                                                <input type="number" class="form-control" placeholder="$0"  #precio_compra="ngModel" name="precio_compra" [(ngModel)]="producto.precio_compra" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-2">
+                                            <div class="form-group">
+                                                <label class="form-label">Precio venta</label>
+                                                <input type="number" class="form-control" placeholder="$0"  #precio_venta="ngModel" name="precio_venta" [(ngModel)]="producto.precio_venta" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-2">
+                                            <label class="form-label">Cantidad</label>
+                                            <input type="number" class="form-control" placeholder="0"  #stock="ngModel" name="stock" [(ngModel)]="producto.stock" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Descripcion</label>
+                                        <textarea class="form-control" placeholder="Breve descripcion"  #descripcion="ngModel" name="descripcion" [(ngModel)]="producto.descripcion"> required</textarea>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-4">
+                                            <div class="form-group">
+                                                <label class="form-label">Categoria</label>
+                                                <select class="form-control"  #idcategoria="ngModel" required name="idcategoria" [(ngModel)]="producto.idcategoria">
+                                                    <option value="" disabled>SELECCIONAR</option>
+                                                    <option value="{{item._id}}" *ngFor="let item of categorias">{{item.titulo.toUpperCase()}}</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-2">
+                                            <div class="form-group">
+                                                <label class="form-label">Puntos</label>
+                                                <input type="number" required class="form-control"  #puntos="ngModel" name="puntos" [(ngModel)]="producto.puntos">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+
+                                    <button type="submit" class="btn btn-primary">Registrar</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-xl-4">
+                        <div class="card">
+                            <div class="card-header">
+
+                            </div>
+                            <div class="card-body">
+                                <div class="text-center">
+                                    <img alt="Chris Wood" [src]="imgSelect || '../../../../assets/img/default.jpg'" class="rounded-circle img-responsive mt-2" width="128" height="128">
+                                    <div class="mt-2">
+                                        <input class="btn btn-primary" required (change)="imgSelected($event)" type="file" style="width: 100% !important;">
+                                    </div>
+                                    <small>For best results, use an image at least 128px by 128px in .jpg
+                                    format</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+       
+    </div>
+</div>

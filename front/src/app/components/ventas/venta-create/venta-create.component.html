@@ -1,0 +1,144 @@
+
+<div class="wrapper">
+    <app-sidebar style="background: white;"></app-sidebar>
+    <div class="main">
+        <nav class="navbar navbar-expand navbar-theme">
+            <a class="sidebar-toggle d-flex mr-2">
+                <i class="hamburger align-self-center"></i>
+            </a>
+        </nav>
+        <main class="content">
+            <div class="container-fluid">
+
+                <div class="header">
+                    <h1 class="header-title">
+                        Registrar Venta
+                    </h1>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="dashboard-default.html">Dashboard</a></li>
+                            <li class="breadcrumb-item"><a>Ventas</a></li>
+                        </ol>
+                    </nav>
+                </div>
+                <div class="row">
+
+                    <div class="col-12 col-xl-12 form-group">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="card-title">Datos de la Venta</h5>
+                            </div>
+                            <div class="card-body">
+                                <form #ventaForm="ngForm" (ngSubmit)="onSubmit(ventaForm)">
+                                    <div class="row">
+                                        <div class="col-lg-4 form-group">
+                                            <label><b>Trabajador</b></label>
+                                            <input type="text" class="form-control" readonly value="{{identity.nombres}} {{identity.apellidos}}">
+                                        </div>
+                                        <div class="col-lg-4 form-group">
+                                            <label><b>Clientes</b></label>
+                                            <select name="" class="form-control" #idcliente="ngModel" name="idcliente" [(ngModel)]="venta.idcliente">
+                                                <option value="">SELECCIONAR</option>
+                                                <option value="{{item._id}}" *ngFor="let item of clientes">{{item.nombres}}</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-lg-2 form-group">
+                 
+                                            <a [routerLink]="['/cliente/registrar']"  class="btn btn-primary">Nuevo cliente</a>
+                                        </div>
+                                        <div class="col-lg-2 form-group">
+                 
+                                            <button type="submit" class="btn btn-primary">Registrar venta</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-lg-12" *ngIf="error_message">
+                        <div class="alert alert-danger alert-dismissible" role="alert">
+                            <div class="alert-message">
+                               {{error_message}} 
+                            </div>
+
+                            <button type="button" (click)="close_alert()" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-xl-12 form-group">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="card-title">Detalles de la venta</h5>
+                            </div>
+                            <div class="card-body">
+                                <form #detalleForm="ngForm" (ngSubmit)="save_detalle(detalleForm)">
+                                    <div class="row">
+                                        <div class="col-lg-4 form-group">
+                                            <label for=""><b>Productos</b></label>
+                                            <select class="form-control" #idproducto="ngModel" name="idproducto" [(ngModel)]="detalle.idproducto" (change)="get_data_producto($event.target.value)">
+                                                <option value="" disabled>SELECCIONAR</option>
+                                                <option value="{{item._id}}" *ngFor="let item of productos">{{item.titulo}}</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-lg-3 form-group">
+                                            <label for=""><b>Stock actual</b></label>
+                                            <input type="text" readonly class="form-control" value="{{producto.stock}}">
+                                        </div>
+                                        <div class="col-lg-3 form-group">
+                                            <label for=""><b>Cantidad</b></label>
+                                            <input type="text" #cantidad="ngModel" name="cantidad" [(ngModel)]="detalle.cantidad" class="form-control" >
+                                        </div>
+                                        <div class="col-lg-2 form-group">
+                                            <label><b>*</b></label>
+                                            <button class="btn btn-primary btn-block" type="submit">Agregar</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-xl-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="card-title">Productos</h5>
+                            </div>
+                            <table  class="table table-striped table-hover table-sm">
+                                <thead>
+                                    <th>Eliminar</th>
+                                    <th>Producto</th>
+                                    <th>Precio</th>
+                                    <th>Cantidad</th>
+                                    <th>Subtotal</th>
+                                    
+                                </thead>
+                                <tbody *ngFor="let item of data_detalle; let idx = index">
+                                    <td><button class="btn btn-danger btn-sm" (click)="eliminar(idx,item.precio_venta,item.cantidad)"><i class="fas fa-trash"></i></button></td>
+                                    <td>{{item.producto}}</td>
+                                    <td>{{item.precio_venta}}</td>
+                                    <td>{{item.cantidad}}</td>
+                                    <td>{{(item.precio_venta) * (item.cantidad)}}</td>
+                                </tbody>
+                                <tfoot>
+                                    <td><b>Total</b></td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>${{total}}</td>
+                                </tfoot>
+                            </table>
+                            <div class="card-footer">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+       
+    </div>
+</div>

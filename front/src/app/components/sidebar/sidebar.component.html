@@ -1,0 +1,64 @@
+<div class="wrapper">
+    <nav id="sidebar" class="sidebar">
+        <a class="sidebar-brand" href="index.html">
+      <svg>
+        <use xlink:href="#ion-ios-pulse-strong"></use>
+      </svg>
+      Angular 9
+    </a>
+        <div class="sidebar-content">
+            <div class="sidebar-user">
+                <img src="../../../assets/img/logo3.png" class="img-fluid rounded-circle mb-2" alt="Linda Miller" />
+                <div class="font-weight-bold">Sistema de Ventas</div>
+                <small>Angular</small>
+            </div>
+
+            <ul class="sidebar-nav">
+                <li class="sidebar-header">
+                    Main
+                </li>
+                <li class="sidebar-item">
+                    <a href="#dashboards" data-toggle="collapse" class="sidebar-link collapsed">
+            <i class="align-middle mr-2 fas fa-fw fa-home"></i> <span class="align-middle">Dashboards</span>
+          </a>
+                    <ul id="dashboards" class="sidebar-dropdown list-unstyled collapse " data-parent="#sidebar">
+                        <li class="sidebar-item"><a class="sidebar-link" href="dashboard-default.html">Default</a></li>
+                        <li class="sidebar-item"><a class="sidebar-link" href="dashboard-analytics.html">Analytics</a></li>
+                        <li class="sidebar-item"><a class="sidebar-link" href="dashboard-e-commerce.html">E-commerce</a></li>
+                    </ul>
+                </li>
+            
+
+                <li class="sidebar-item" routerLinkActive="sidebar-item active">
+                    <a class="sidebar-link" [routerLink]="['/productos']"  >
+                        <i class="align-middle mr-2 fas fa-fw fa-book"></i> <span class="align-middle">Productos</span>
+                    </a>
+                </li>
+
+                <li class="sidebar-item" routerLinkActive="sidebar-item active">
+                    <a class="sidebar-link" [routerLink]="['/clientes']"  >
+                        <i class="align-middle mr-2 fas fa-fw fa-book"></i> <span class="align-middle">Clientes</span>
+                    </a>
+                </li>
+
+                <li class="sidebar-item" *ngIf="identity.role == 'ADMIN'" routerLinkActive="sidebar-item active">
+                    <a class="sidebar-link" [routerLink]="['/usuarios']"  >
+                        <i class="align-middle mr-2 fas fa-fw fa-book"></i> <span class="align-middle">Usuarios</span>
+                    </a>
+                </li>
+              
+                <li class="sidebar-item" routerLinkActive="sidebar-item active">
+                    <a class="sidebar-link" [routerLink]="['/ventas']"  >
+                        <i class="align-middle mr-2 fas fa-fw fa-book"></i> <span class="align-middle">Ventas</span>
+                    </a>
+                </li>
+
+                <li class="sidebar-item">
+                    <a class="sidebar-link" (click)="logout()">
+                        <i class="align-middle mr-2 fas fa-fw fa-book"></i> <span class="align-middle">Cerrar Sesión</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</div>

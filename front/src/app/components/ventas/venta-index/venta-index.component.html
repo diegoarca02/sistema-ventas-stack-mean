@@ -1,0 +1,76 @@
+<div class="wrapper">
+    <app-sidebar style="background: white !important;"></app-sidebar>
+
+    <div class="main">
+        <nav class="navbar navbar-expand navbar-theme">
+            <a class="sidebar-toggle d-flex mr-2">
+                <i class="hamburger align-self-center"></i>
+            </a>
+        </nav>
+        <main class="content">
+            <div class="container-fluid">
+
+                <div class="header">
+                    <h1 class="header-title">
+                        Ventas
+                    </h1>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a [routerLink]="['/dashboard']" >Dashboard</a></li>
+                            <li class="breadcrumb-item"><a>Ventas</a></li>
+                        </ol>
+                    </nav>
+                </div>
+                <div class="row">
+                    
+                    <div class="col-12 col-xl-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="row">
+                                   
+                                    <div class="col-lg-6">
+                                    
+                                        <a [routerLink]="['/venta/registrar']"  class="btn btn-primary">Registrar venta</a>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                            <table class="table table-striped table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Cliente</th>
+                                        <th>Fecha</th>
+                                        <th>Trabajador</th>
+                                        <th>Opciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody *ngFor="let item of ventas">
+                                        <td>
+                                           {{item.idcliente.nombres}}
+                                        </td>
+                                        <td>{{item.fecha | date: 'MMM d, y, h:mm:ss a'}}</td>
+                                        <td>
+                                           {{item.iduser.nombres}} {{item.iduser.apellidos}}
+                                        </td>
+                                        <td>
+                                            <div class="btn-group">
+                                                <button type="button" class="btn mb-1 btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <i class="fas fa-cog"></i>
+                                                </button>
+                                                <div class="dropdown-menu">
+                                                    <a class="dropdown-item" [routerLink]="['/venta/',item._id]" >Detalle de venta</a>
+                                                    
+                                                </div>
+                                            </div>
+                                        </td>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                  
+                </div>
+            </div>
+        </main>
+       
+    </div>
+</div>
